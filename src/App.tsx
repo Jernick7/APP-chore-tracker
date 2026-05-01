@@ -87,7 +87,19 @@ export default function App() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to submit");
+        // Angry Confetti for failure
+        const scalar = 2;
+        const angry = confetti.shapeFromText({ text: '😠', scalar });
+
+        confetti({
+          shapes: [angry],
+          particleCount: 40,
+          scalar,
+          spread: 90,
+          origin: { y: 0.6 }
+        });
+
+        throw new Error(data.error || `Incorrect password ${selectedUser}`);
       }
 
       // Success!
@@ -101,7 +113,7 @@ export default function App() {
       setPassword("");
       fetchLogs();
     } catch (err: any) {
-      setError(err.message);
+      setError(`Incorrect password ${selectedUser} 😠`);
     } finally {
       setSubmitting(false);
     }
