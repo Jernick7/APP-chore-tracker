@@ -88,8 +88,17 @@ if submit_button:
         chore_logs.append(new_entry)
         save_data(chore_logs)
         st.sidebar.success(f"Verified! {CHORE_VALUES[selected_chore]} pts added to {selected_user}.")
-    else:
-        st.sidebar.error("Incorrect Password.")
+# --- SIDEBAR: RESET ---
+st.sidebar.markdown("---")
+with st.sidebar.expander("🛠️ Admin Actions"):
+    reset_pwd = st.text_input("Reset Password", type="password", key="reset_pwd")
+    if st.button("Reset All Data"):
+        if reset_pwd == "0987":
+            save_data([])
+            st.success("All data has been reset!")
+            st.rerun()
+        else:
+            st.error("Incorrect Reset Password.")
 
 # --- CALCULATION ---
 scores = {user: 0 for user in USERS}

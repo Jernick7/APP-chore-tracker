@@ -47,6 +47,9 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [password, setPassword] = useState("");
 
+  const [resetPwd, setResetPwd] = useState("");
+  const [resetting, setResetting] = useState(false);
+
   const fetchLogs = async () => {
     try {
       const res = await fetch("/api/chores");
@@ -101,6 +104,27 @@ export default function App() {
       setError(err.message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (!window.confirm("Are you sure you want to reset all data?")) return;
+    setResetting(true);
+    try {
+      const res = await fetch("/api/chores", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: resetPwd }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setResetPwd("");
+      fetchLogs();
+      alert("System Reset Successful!");
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -244,6 +268,30 @@ export default function App() {
                 )}
               </button>
             </form>
+
+            {/* Reset Section */}
+            <div className="mt-12 pt-8 border-t border-gray-100">
+              <div className="flex items-center gap-2 mb-4">
+                <AlertCircle size={16} className="text-gray-400" />
+                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Admin Reset</h3>
+              </div>
+              <div className="flex gap-2">
+                <input 
+                  type="password"
+                  placeholder="Reset Password (0987)"
+                  value={resetPwd}
+                  onChange={(e) => setResetPwd(e.target.value)}
+                  className="flex-1 py-2 px-3 text-sm rounded-lg bg-gray-50 border border-gray-100 focus:border-red-500 focus:outline-none transition-colors"
+                />
+                <button
+                  onClick={handleReset}
+                  disabled={resetting}
+                  className="px-4 py-2 rounded-lg bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+                >
+                  {resetting ? <Loader2 size={14} className="animate-spin" /> : "Reset Data"}
+                </button>
+              </div>
+            </div>
           </section>
         </div>
 

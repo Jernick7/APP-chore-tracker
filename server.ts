@@ -58,6 +58,19 @@ async function startServer() {
     }
   });
 
+  app.delete("/api/chores", (req, res) => {
+    const { password } = req.body;
+    if (password !== "0987") {
+      return res.status(403).json({ error: "Incorrect Reset Password" });
+    }
+    try {
+      fs.writeFileSync(DB_FILE, JSON.stringify([], null, 2));
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to reset data" });
+    }
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
