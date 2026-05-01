@@ -89,7 +89,7 @@ if submit_button:
         save_data(chore_logs)
         st.sidebar.success(f"Verified! {CHORE_VALUES[selected_chore]} pts added to {selected_user}.")
     else:
-        st.sidebar.error(f"Incorrect Password {selected_user} 😠")
+        st.sidebar.error("Incorrect Password Bave!! 😠")
 # --- SIDEBAR: RESET ---
 st.sidebar.markdown("---")
 with st.sidebar.expander("🛠️ Admin Actions"):
