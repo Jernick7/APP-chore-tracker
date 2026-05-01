@@ -6,7 +6,13 @@ import pandas as pd
 
 # --- CONFIGURATION & CONSTANTS ---
 DB_FILE = "chores_db.json"
-PARENT_PASSWORD = os.getenv("PARENT_PASSWORD", "admin123")
+
+# Try to get password from Streamlit Secrets first, then Env, then default
+if "PARENT_PASSWORD" in st.secrets:
+    PARENT_PASSWORD = st.secrets["PARENT_PASSWORD"]
+else:
+    PARENT_PASSWORD = os.getenv("PARENT_PASSWORD", "admin123")
+
 USERS = ["Jernick", "Bave"]
 CHORE_VALUES = {
     "Taking out the trash": 1,
