@@ -11,7 +11,7 @@ DB_FILE = "chores_db.json"
 if "PARENT_PASSWORD" in st.secrets:
     PARENT_PASSWORD = st.secrets["PARENT_PASSWORD"]
 else:
-    PARENT_PASSWORD = os.getenv("PARENT_PASSWORD", "admin123")
+    PARENT_PASSWORD = os.getenv("PARENT_PASSWORD", "0987")
 
 USERS = ["Jernick", "Bave"]
 CHORE_VALUES = {

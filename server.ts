@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const PORT = 3000;
 const DB_FILE = path.join(__dirname, "chores_db.json");
-const PARENT_PASSWORD = process.env.PARENT_PASSWORD || "admin123";
+const PARENT_PASSWORD = process.env.PARENT_PASSWORD || "0987";
 
 async function startServer() {
   const app = express();
